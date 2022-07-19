@@ -16,13 +16,20 @@
         matrix:
           python_version:
             - 3.8
-            - 3.6
-            - 3.9
+            # - 3.6
+            # - 3.9
       steps:
         - name: Checkout
           uses: actions/checkout@v2
           with:
             fetch-depth: 0
+
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v2
+        
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v2
 
         - name: Collect latest git TAG for refresh
           id: get_latest_tag
@@ -50,6 +57,7 @@
           with:
             context: .
             file: ${{ matrix.python_version }}/Dockerfile
+            platforms: linux/amd64, linux/arm64/v8, linux/arm/v7
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
