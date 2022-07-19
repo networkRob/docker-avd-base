@@ -3,7 +3,7 @@
   on:
     push:
       branches:
-        - 'multi-arch-image-builds'
+        - 'master'
     repository_dispatch:
       types:
         - refresh
@@ -40,7 +40,7 @@
         - name: Docker meta for EDGE
           id: meta
           uses: docker/metadata-action@v3
-          if: startsWith(github.ref, 'refs/heads/multi-arch-image-builds')
+          if: startsWith(github.ref, 'refs/heads/master')
           with:
             images: ${{ secrets.DOCKER_IMAGE }}
             tags: |
